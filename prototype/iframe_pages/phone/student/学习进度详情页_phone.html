@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI学习秘书 - 学习进度详情页</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            /* Student-Friendly Color Palette */
+            --primary: #2196F3; /* Bright blue */
+            --primary-variant: #1976D2; /* Darker blue */
+            --secondary: #03A9F4; /* Light blue */
+            --secondary-variant: #0288D1; /* Darker light blue */
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336; /* Bright red for errors */
+            --success: #4CAF50; /* Green for success */
+            --warning: #FFC107; /* Yellow for warnings */
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD; /* Very light blue background */
+            --divider: #EEEEEE;
+            --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            width: 360px;
+            height: 640px;
+            background-color: var(--background);
+            overflow: hidden;
+            position: relative;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Common Components */
+        .app-bar {
+            height: 56px;
+            background-color: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-button {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .back-button::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid var(--on-primary);
+            border-bottom: 2px solid var(--on-primary);
+            transform: rotate(45deg);
+            left: 7px;
+            top: 7px;
+        }
+
+        .app-bar-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .page-content {
+            height: calc(100% - 56px);
+            overflow-y: auto;
+            padding: 12px;
+            -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
+            scrollbar-width: none;  /* Hide scrollbar in Firefox */
+        }
+
+        .page-content::-webkit-scrollbar {
+            display: none;  /* Hide scrollbar in Chrome and Safari */
+        }
+
+        .card {
+            background-color: transparent;
+            border-radius: 0;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--on-background);
+        }
+
+        .button {
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .button-primary:hover {
+            background-color: var(--primary-variant);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        .status-pill-warning {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .list-item-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--on-background);
+        }
+
+        .list-item-meta {
+            font-size: 12px;
+            color: #9e9e9e;
+            display: flex;
+            gap: 8px;
+        }
+
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .image-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 8px 8px 0;
+        }
+
+        .image-placeholder .material-icons {
+            font-size: 24px;
+            color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-bar">
+        <button class="back-button"></button>
+        <span class="app-bar-title">学习进度详情</span>
+    </div>
+    <div class="page-content">
+        <div class="card">
+            <h3 class="list-item-title">数学错题集整理</h3>
+            <div class="list-item-meta" style="margin: 8px 0 16px;">
+                <span>2023-03-25</span>
+                <span>数学</span>
+                <span class="status-pill status-pill-warning">未完成</span>
+                <span>错题</span>
+            </div>
+            
+            <p style="margin-bottom: 16px; line-height: 1.5; color: #333;">
+                今天在解方程组的时候遇到了一个问题，关于二元一次方程组的解法，需要注意符号问题。特别是在消元法中，当系数为负数时很容易出错。下面是我做错的题目和正确解法。我需要多加练习类似的题目，巩固这个知识点。
+            </p>
+            
+            <div class="section-title">图片详情</div>
+            <div class="image-grid">
+                <div class="image-placeholder">
+                    <span class="material-icons">photo</span>
+                </div>
+                <div class="image-placeholder">
+                    <span class="material-icons">photo</span>
+                </div>
+            </div>
+            
+            <button class="button button-primary" style="width: 100%;">标记完成</button>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Secretary - Login</title>
+    <style>
+        :root {
+            /* Student-Friendly Color Palette */
+            --primary: #2196F3; /* Bright blue instead of purple */
+            --primary-variant: #1976D2; /* Darker blue */
+            --secondary: #03A9F4; /* Light blue instead of green */
+            --secondary-variant: #0288D1; /* Darker light blue */
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336; /* Bright red for errors */
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD; /* Very light blue background */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        /* Tablet mockup styles - Larger than phone mockup */
+        .tablet-mockup {
+            width: 1200px;
+            height: 800px;
+            background-color: var(--background);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Login Page Styles */
+        .login-page {
+            display: flex;
+            height: 100%;
+            background-color: var(--background);
+        }
+
+        .login-left {
+            width: 50%;
+            background: linear-gradient(135deg, #1976D2, #2196F3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+        }
+
+        .login-left::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 100px;
+            background-color: rgba(255, 255, 255, 0.1);
+            top: -50px;
+            left: -50px;
+        }
+
+        .login-left::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            background-color: rgba(255, 255, 255, 0.1);
+            bottom: -30px;
+            right: 50px;
+        }
+
+        .login-slogan {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .login-form-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--on-background);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 18px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 18px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+
+        .input-field label {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            color: #777;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-field input:focus + label,
+        .input-field input:not(:placeholder-shown) + label {
+            transform: translateY(-28px) scale(0.85);
+            color: var(--primary);
+            background-color: #fff;
+            padding: 0 8px;
+        }
+
+        .remember-option {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .remember-option input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .remember-option label {
+            font-size: 16px;
+            color: #455A64;
+        }
+
+        .login-button {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-variant);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-slogan, .login-description, .login-form-title {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .input-field {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .input-field:nth-child(1) { animation-delay: 0.2s; }
+        .input-field:nth-child(2) { animation-delay: 0.3s; }
+
+        .login-button {
+            animation: fadeIn 0.8s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="tablet-mockup">
+        <div class="login-page">
+            <div class="login-left">
+                <div class="login-slogan">AI学习秘书</div>
+                <div class="login-description">
+                    为您提供智能化的学习体验，助力教学进程高效管理
+                </div>
+            </div>
+            
+            <div class="login-right">
+                <h2 class="login-form-title">用户登录</h2>
+                
+                <div class="login-form">
+                    <div class="input-field">
+                        <input type="text" id="username" placeholder=" ">
+                        <label for="username">姓名</label>
+                    </div>
+                    
+                    <div class="input-field">
+                        <input type="password" id="password" placeholder=" ">
+                        <label for="password">密码（班级+学号）</label>
+                    </div>
+                    
+                    <div class="remember-option">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">记住密码</label>
+                    </div>
+                    
+                    <button class="login-button">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI学习秘书 - 管理员端UI原型</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            /* Color Palette */
+            --primary: #2196F3; /* Bright blue */
+            --primary-variant: #1976D2; /* Darker blue */
+            --secondary: #03A9F4; /* Light blue */
+            --secondary-variant: #0288D1; /* Darker light blue */
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336; /* Bright red for errors */
+            --success: #4CAF50; /* Green for success */
+            --warning: #FFC107; /* Yellow for warnings */
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD; /* Very light blue background */
+            --divider: #EEEEEE;
+            --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .page-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .page-description {
+            width: 100%;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Phone mockup styles */
+        .phone-mockup {
+            width: 360px;
+            height: 640px;
+            background-color: var(--background);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Common Components */
+        .app-bar {
+            height: 56px;
+            background-color: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-button {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .back-button::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid var(--on-primary);
+            border-bottom: 2px solid var(--on-primary);
+            transform: rotate(45deg);
+            left: 7px;
+            top: 7px;
+        }
+
+        .app-bar-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .bottom-nav {
+            height: 56px;
+            background-color: var(--surface);
+            border-top: 1px solid var(--divider);
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+            color: #757575;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .material-icons {
+            font-size: 24px;
+        }
+
+        .nav-icon .material-icons {
+            font-size: 22px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+        }
+
+        .page-content {
+            height: calc(100% - 56px);
+            overflow-y: auto;
+            padding: 16px;
+            -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
+            scrollbar-width: none;  /* Hide scrollbar in Firefox */
+        }
+
+        .page-content::-webkit-scrollbar {
+            display: none;  /* Hide scrollbar in Chrome and Safari */
+        }
+
+        .bottom-nav-page-content {
+            height: calc(100% - 112px);
+            overflow-y: auto;
+            padding: 16px;
+            -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
+            scrollbar-width: none;  /* Hide scrollbar in Firefox */
+        }
+
+        .bottom-nav-page-content::-webkit-scrollbar {
+            display: none;  /* Hide scrollbar in Chrome and Safari */
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            padding: 0 12px;
+            margin-bottom: 16px;
+            height: 48px;
+        }
+
+        .search-icon {
+            color: #757575;
+            margin-right: 12px;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background-color: transparent;
+            font-size: 16px;
+            height: 100%;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--on-background);
+        }
+
+        .chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .chip-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .chip-success {
+            background-color: var(--success);
+            color: var(--on-primary);
+        }
+
+        .chip-warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+
+        .button {
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .button-primary:hover {
+            background-color: var(--primary-variant);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        .status-pill-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-pill-warning {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .status-pill-error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+            animation: slideIn 0.3s ease-out forwards;
+            background-color: var(--surface);
+            margin-bottom: 1px;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-content {
+            display: flex;
+        }
+
+        .list-item-text {
+            flex: 1;
+        }
+
+        .list-item-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--on-background);
+        }
+
+        .list-item-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .list-item-meta {
+            font-size: 12px;
+            color: #9e9e9e;
+            display: flex;
+            gap: 8px;
+        }
+
+        .list-item-thumbnail {
+            width: 60px;
+            height: 60px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #f1f1f1;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: #9e9e9e;
+        }
+
+        .empty-text {
+            font-size: 16px;
+            color: #757575;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: #757575;
+            font-size: 30px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .profile-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon .material-icons {
+            color: var(--primary);
+            font-size: 22px;
+        }
+
+        .menu-text {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .menu-arrow {
+            width: 16px;
+            height: 16px;
+            position: relative;
+        }
+
+        .menu-arrow::before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid #bdbdbd;
+            border-right: 2px solid #bdbdbd;
+            transform: rotate(45deg);
+            right: 4px;
+            top: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: var(--background);
+            color: #757575;
+            height: 48px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <!-- 管理员端主页 - 教师管理页 -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <span class="app-bar-title">教师管理</span>
+                </div>
+                <div class="bottom-nav-page-content">
+                    <div class="search-bar">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" class="search-input" placeholder="搜索教师姓名或工号">
+                    </div>
+
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-text">
+                                <div class="list-item-title">王明</div>
+                                <div class="list-item-meta">
+                                    <span>工号：T2025001</span>
+                                    <span>数学教师</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-text">
+                                <div class="list-item-title">李华</div>
+                                <div class="list-item-meta">
+                                    <span>工号：T2025002</span>
+                                    <span>语文教师</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-text">
+                                <div class="list-item-title">张伟</div>
+                                <div class="list-item-meta">
+                                    <span>工号：T2025003</span>
+                                    <span>英语教师</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-item">
+                        <div class="list-item-content">
+                            <div class="list-item-text">
+                                <div class="list-item-title">赵丽</div>
+                                <div class="list-item-meta">
+                                    <span>工号：T2025004</span>
+                                    <span>物理教师</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="nav-label">学生管理</div>
+                    </div>
+                    <div class="nav-item active">
+                        <div class="nav-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="nav-label">教师管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="nav-label">我的</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>管理员端主页 - 教师管理页</h2>
+            </div>
+        </div>
+        
+        <!-- 管理员端主页 - 教师管理页（空状态） -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <span class="app-bar-title">教师管理</span>
+                </div>
+                <div class="bottom-nav-page-content">
+                    <div class="search-bar">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" class="search-input" placeholder="搜索教师姓名或工号">
+                    </div>
+
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="empty-text">暂无教师</div>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="nav-label">学生管理</div>
+                    </div>
+                    <div class="nav-item active">
+                        <div class="nav-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="nav-label">教师管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="nav-label">我的</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>管理员端主页 - 教师管理页（空状态）</h2>
+            </div>
+        </div>
+        
+        <!-- 教师详情页 -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <button class="back-button"></button>
+                    <span class="app-bar-title">教师详情</span>
+                </div>
+                <div class="page-content">
+                    <div class="profile-section">
+                        <div class="profile-avatar">
+                            <span>王</span>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">王明</div>
+                            <div class="profile-details">工号：T2025001</div>
+                            <div class="profile-details">数学教师</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active">任务发布</div>
+                        <div class="tab">任务批改</div>
+                    </div>
+                    
+                    <!-- 任务发布列表 -->
+                    <div style="margin-top: 16px;">
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">第三章函数作业</div>
+                                    <div class="list-item-description">请完成课本习题3.1-3.5，周一上课前提交</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-10 23:59</span>
+                                        <span class="status-pill status-pill-warning">进行中</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">二次函数图像分析练习</div>
+                                    <div class="list-item-description">完成附件中的练习题，注意分析解题过程</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-05 23:59</span>
+                                        <span class="status-pill status-pill-success">已结束</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">数学思维训练</div>
+                                    <div class="list-item-description">完成附件中的数学思维训练题，要求详细写出思考过程</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-01 23:59</span>
+                                        <span class="status-pill status-pill-success">已结束</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>教师详情页 - 任务发布</h2>
+            </div>
+        </div>
+        
+        <!-- 教师详情页 - 任务批改 -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <button class="back-button"></button>
+                    <span class="app-bar-title">教师详情</span>
+                </div>
+                <div class="page-content">
+                    <div class="profile-section">
+                        <div class="profile-avatar">
+                            <span>王</span>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">王明</div>
+                            <div class="profile-details">工号：T2025001</div>
+                            <div class="profile-details">数学教师</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab">任务发布</div>
+                        <div class="tab active">任务批改</div>
+                    </div>
+                    
+                    <!-- 任务批改列表 -->
+                    <div style="margin-top: 16px;">
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">第三章函数作业</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-10 23:59</span>
+                                        <span class="status-pill status-pill-warning">待批改：12</span>
+                                        <span class="status-pill status-pill-success">已批改：18</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">二次函数图像分析练习</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-05 23:59</span>
+                                        <span class="status-pill status-pill-success">批改完成</span>
+                                        <span>共批改：30篇</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">数学思维训练</div>
+                                    <div class="list-item-meta">
+                                        <span>截止日期：2023-04-01 23:59</span>
+                                        <span class="status-pill status-pill-success">批改完成</span>
+                                        <span>共批改：28篇</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>教师详情页 - 任务批改</h2>
+            </div>
+        </div>
+        
+        <!-- 管理员端主页 - 学生管理页 -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <span class="app-bar-title">学生管理</span>
+                </div>
+                <div class="bottom-nav-page-content">
+                    <div class="search-bar">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" class="search-input" placeholder="搜索学生姓名或学号">
+                    </div>
+
+                    <div class="card">
+                        <div class="section-title">七年级一班</div>
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">张小明</div>
+                                    <div class="list-item-meta">
+                                        <span>学号：S20230101</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">李小华</div>
+                                    <div class="list-item-meta">
+                                        <span>学号：S20230102</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="section-title">七年级二班</div>
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">王小刚</div>
+                                    <div class="list-item-meta">
+                                        <span>学号：S20230201</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-item">
+                            <div class="list-item-content">
+                                <div class="list-item-text">
+                                    <div class="list-item-title">赵小丽</div>
+                                    <div class="list-item-meta">
+                                        <span>学号：S20230202</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="nav-label">学生管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="nav-label">教师管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="nav-label">我的</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>管理员端主页 - 学生管理页</h2>
+            </div>
+        </div>
+        
+        <!-- 管理员端主页 - 学生管理页（空状态） -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <span class="app-bar-title">学生管理</span>
+                </div>
+                <div class="bottom-nav-page-content">
+                    <div class="search-bar">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" class="search-input" placeholder="搜索学生姓名或学号">
+                    </div>
+
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="empty-text">暂无学生</div>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="nav-label">学生管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="nav-label">教师管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="nav-label">我的</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>管理员端主页 - 学生管理页（空状态）</h2>
+            </div>
+        </div>
+        
+        <!-- 管理员端主页 - 我的页面 -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <div class="app-bar">
+                    <span class="app-bar-title">我的</span>
+                </div>
+                <div class="bottom-nav-page-content">
+                    <div class="profile-section">
+                        <div class="profile-avatar">
+                            <span>管</span>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">系统管理员</div>
+                            <div class="profile-details">工号：A2025001</div>
+                        </div>
+                    </div>
+                    
+                    <button class="button button-primary" style="width: 100%; margin-top: 16px;">退出登录</button>
+                    
+                    <div style="text-align: center; margin-top: 24px; color: #9e9e9e; font-size: 12px;">
+                        AI学习秘书 版本 1.0.0
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div class="nav-label">学生管理</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">
+                            <span class="material-icons">school</span>
+                        </div>
+                        <div class="nav-label">教师管理</div>
+                    </div>
+                    <div class="nav-item active">
+                        <div class="nav-icon">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="nav-label">我的</div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-description">
+                <h2>管理员端主页 - 我的页面</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Secretary - Welcome</title>
+    <style>
+        :root {
+            /* Student-Friendly Color Palette */
+            --primary: #2196F3; /* Bright blue instead of purple */
+            --primary-variant: #1976D2; /* Darker blue */
+            --secondary: #03A9F4; /* Light blue instead of green */
+            --secondary-variant: #0288D1; /* Darker light blue */
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336; /* Bright red for errors */
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD; /* Very light blue background */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        /* Tablet mockup styles - Larger than phone mockup */
+        .tablet-mockup {
+            width: 1200px;
+            height: 800px;
+            background-color: var(--background);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Welcome Page Styles */
+        .welcome-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 50px 40px;
+            height: 100%;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            background-color: var(--primary);
+            border-radius: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .logo-text {
+            color: var(--on-primary);
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .app-name {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--on-background);
+            margin-bottom: 20px;
+        }
+
+        .app-slogan {
+            font-size: 24px;
+            color: #455A64;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .enter-button {
+            background-color: var(--primary);
+            color: var(--on-secondary);
+            border: none;
+            padding: 18px 50px;
+            border-radius: 40px;
+            font-size: 24px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+            margin-top: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .enter-button:hover {
+            background-color: var(--primary-variant);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        .version-info {
+            font-size: 16px;
+            color: #777;
+            margin-top: 120px;
+        }
+
+        /* Decorative elements for welcome page */
+        .welcome-decoration-1 {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(33, 150, 243, 0.2);
+            border-radius: 15px;
+            transform: rotate(15deg);
+        }
+
+        .welcome-decoration-2 {
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(3, 169, 244, 0.2);
+            border-radius: 10px;
+            transform: rotate(-10deg);
+        }
+
+        .welcome-decoration-3 {
+            position: absolute;
+            top: 150px;
+            left: 100px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(33, 150, 243, 0.15);
+            border-radius: 8px;
+            transform: rotate(25deg);
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(15deg); }
+            50% { transform: translateY(-10px) rotate(15deg); }
+            100% { transform: translateY(0) rotate(15deg); }
+        }
+
+        .logo-container {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .welcome-decoration-1 {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .welcome-decoration-2 {
+            animation: float 7s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        .welcome-decoration-3 {
+            animation: float 5s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        .enter-button {
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="tablet-mockup">
+        <div class="welcome-page">
+            <div class="welcome-decoration-1"></div>
+            <div class="welcome-decoration-2"></div>
+            <div class="welcome-decoration-3"></div>
+            
+            <div class="logo-container">
+                <div class="logo">
+                    <span class="logo-text">AI</span>
+                </div>
+                <h1 class="app-name">AI学习秘书</h1>
+                <p class="app-slogan">智能学习管理系统</p>
+            </div>
+            
+            <button class="enter-button">进入系统</button>
+            
+            <p class="version-info">版本 1.0.0</p>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI学习秘书 - 复盘页</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            --primary: #2196F3;
+            --primary-variant: #1976D2;
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --on-primary: #FFFFFF;
+            --on-background: #212121;
+            --divider: #EEEEEE;
+            --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            width: 360px;
+            height: 640px;
+            background-color: var(--background);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .app-bar {
+            height: 56px;
+            background-color: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .back-button {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .back-button::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid var(--on-primary);
+            border-bottom: 2px solid var(--on-primary);
+            transform: rotate(45deg);
+            left: 7px;
+            top: 7px;
+        }
+
+        .app-bar-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .page-content {
+            height: calc(100% - 56px);
+            overflow-y: auto;
+            padding: 16px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .page-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-bar {
+            display: flex;
+            padding: 8px 0;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-item {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-right: 8px;
+            background-color: #f1f1f1;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .filter-item.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .text-field {
+            margin-bottom: 16px;
+        }
+
+        .text-field-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .text-field-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .text-field-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .text-area:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .upload-button {
+            width: 80px;
+            height: 80px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 8px 8px 0;
+            border: 1px dashed #aaa;
+        }
+
+        .upload-icon {
+            color: #757575;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .upload-text {
+            font-size: 12px;
+            color: #757575;
+        }
+
+        .button {
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .button-primary:hover {
+            background-color: var(--primary-variant);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-bar">
+        <button class="back-button"></button>
+        <span class="app-bar-title">学习复盘</span>
+    </div>
+    <div class="page-content">
+        <div class="filter-bar" style="margin-bottom: 20px;">
+            <div class="filter-item active">课堂复盘</div>
+            <div class="filter-item">每日复盘</div>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">课程选择</div>
+            <select class="text-field-input">
+                <option>数学 - 周一 第2节</option>
+                <option>物理 - 周一 第3节</option>
+                <option>英语 - 周一 第4节</option>
+                <option>化学 - 周二 第1节</option>
+            </select>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">知识点</div>
+            <textarea class="text-area" placeholder="今天学习了哪些重要知识点？"></textarea>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">问题分析</div>
+            <textarea class="text-area" placeholder="今天的学习中遇到了哪些问题？"></textarea>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">改进策略</div>
+            <textarea class="text-area" placeholder="针对问题，你打算如何改进？"></textarea>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">心得</div>
+            <textarea class="text-area" placeholder="对今天学习的总体感受和收获"></textarea>
+        </div>
+        
+        <div class="text-field">
+            <div class="text-field-label">上传图片</div>
+            <div class="image-grid">
+                <div class="upload-button">
+                    <div class="material-icons upload-icon">add_photo_alternate</div>
+                    <div class="upload-text">上传图片</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="button button-primary" style="width: 100%; margin-top: 16px;">提交复盘</button>
+    </div>
+</body>
+</html> 

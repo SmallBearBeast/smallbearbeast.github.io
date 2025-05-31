@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI学习秘书 - 我的页面 & 学习质量报告</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            /* Student-Friendly Color Palette */
+            --primary: #2196F3; /* Bright blue */
+            --primary-variant: #1976D2; /* Darker blue */
+            --secondary: #03A9F4; /* Light blue */
+            --secondary-variant: #0288D1; /* Darker light blue */
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336; /* Bright red for errors */
+            --success: #4CAF50; /* Green for success */
+            --warning: #FFC107; /* Yellow for warnings */
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD; /* Very light blue background */
+            --divider: #EEEEEE;
+            --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            width: 1200px;
+            height: 800px;
+            background-color: var(--background);
+            overflow: hidden;
+            position: relative;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Layout Container */
+        .main-container {
+            display: flex;
+            height: 100%;
+        }
+
+        /* Left Panel - My Page (33%) */
+        .left-panel {
+            width: 33%;
+            background-color: var(--background);
+            border-right: 1px solid var(--divider);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Right Panel - Quality Report List (67%) */
+        .right-panel {
+            width: 67%;
+            background-color: var(--background);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Common Components */
+        .app-bar {
+            height: 64px;
+            background-color: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .app-bar-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        /* Left Panel Styles - My Page */
+        .my-page-content {
+            height: calc(100% - 64px - 56px);
+            overflow-y: auto;
+            padding: 16px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .my-page-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            background-color: transparent;
+            border-radius: 0;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: none;
+        }
+
+        .button {
+            border: none;
+            border-radius: 4px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .button-primary:hover {
+            background-color: var(--primary-variant);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            margin-top: 16px;
+            padding: 0 4px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: #757575;
+            font-size: 30px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .profile-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 4px;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 16px 12px;
+        }
+
+        .menu-item.active {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 16px 12px;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon .material-icons {
+            color: var(--primary);
+            font-size: 22px;
+        }
+
+        .menu-text {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .menu-arrow {
+            width: 16px;
+            height: 16px;
+            position: relative;
+        }
+
+        .menu-arrow::before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid #bdbdbd;
+            border-right: 2px solid #bdbdbd;
+            transform: rotate(45deg);
+            right: 4px;
+            top: 4px;
+        }
+
+        .menu-group-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            margin: 20px 4px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card.menu-group {
+            margin-bottom: 20px;
+        }
+
+        .bottom-nav {
+            height: 56px;
+            background-color: var(--surface);
+            border-top: 1px solid var(--divider);
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            width: 33%;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+            color: #757575;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary-variant);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon .material-icons {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Right Panel Styles - Quality Report List */
+        .report-page-content {
+            height: calc(100% - 64px);
+            overflow-y: auto;
+            padding: 24px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .report-page-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-bar {
+            display: flex;
+            padding: 12px 0;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-item {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 12px;
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-item.active {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        .filter-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        .list-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+            animation: slideIn 0.3s ease-out forwards;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 16px 12px;
+        }
+
+        .list-item.selected {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 16px 12px;
+        }
+
+        .list-item-content {
+            display: flex;
+        }
+
+        .list-item-text {
+            flex: 1;
+        }
+
+        .list-item-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--on-background);
+        }
+
+        .list-item-meta {
+            font-size: 14px;
+            color: #9e9e9e;
+            display: flex;
+            gap: 12px;
+        }
+
+        .material-icons {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Panel - My Page -->
+        <div class="left-panel">
+            <div class="app-bar">
+                <span class="app-bar-title">我的</span>
+            </div>
+            <div class="my-page-content">
+                <div class="profile-section">
+                    <div class="profile-avatar">
+                        <span>张</span>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-name">张小明</div>
+                        <div class="profile-details">学号：2025001</div>
+                        <div class="profile-details">高三（1）班</div>
+                    </div>
+                </div>
+                
+                <div class="menu-group-title">学习功能</div>
+                <div class="card menu-group">
+                    <div class="menu-item active" onclick="highlightReport(1)">
+                        <div class="menu-icon">
+                            <span class="material-icons">assessment</span>
+                        </div>
+                        <div class="menu-text">学习质量报告</div>
+                        <div class="menu-arrow"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <span class="material-icons">loop</span>
+                        </div>
+                        <div class="menu-text">学习复盘</div>
+                        <div class="menu-arrow"></div>
+                    </div>
+                </div>
+                
+                <div class="menu-group-title">系统设置</div>
+                <div class="card menu-group">
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <span class="material-icons">settings</span>
+                        </div>
+                        <div class="menu-text">设置</div>
+                        <div class="menu-arrow"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-icon">
+                            <span class="material-icons">info</span>
+                        </div>
+                        <div class="menu-text">关于</div>
+                        <div class="menu-arrow"></div>
+                    </div>
+                </div>
+                
+                <button class="button button-primary" style="width: 100%; margin-top: 16px;">退出登录</button>
+                
+                <div style="text-align: center; margin-top: 24px; color: #9e9e9e; font-size: 12px;">
+                    AI学习秘书 版本 1.0.0
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item">
+                    <div class="nav-icon">
+                        <span class="material-icons">bar_chart</span>
+                    </div>
+                    <div class="nav-label">学习进度</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">
+                        <span class="material-icons">assignment</span>
+                    </div>
+                    <div class="nav-label">学习任务</div>
+                </div>
+                <div class="nav-item active">
+                    <div class="nav-icon">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <div class="nav-label">我的</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Quality Report List -->
+        <div class="right-panel">
+            <div class="app-bar">
+                <span class="app-bar-title">学习质量报告</span>
+            </div>
+            <div class="report-page-content">
+                <div class="filter-bar">
+                    <div class="filter-item active">本周</div>
+                    <div class="filter-item">本月</div>
+                    <div class="filter-item">全部</div>
+                </div>
+                
+                <div class="list-item selected" id="report-1" onclick="selectReport(this)">
+                    <div class="list-item-content">
+                        <div class="list-item-text">
+                            <div class="list-item-title">2023-03-27 学习质量报告</div>
+                            <div class="list-item-meta">
+                                <span>周报告</span>
+                                <span>已生成</span>
+                            </div>
+                        </div>
+                        <div style="color: var(--primary); font-size: 32px;">
+                            <span class="material-icons">assessment</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item" id="report-2" onclick="selectReport(this)">
+                    <div class="list-item-content">
+                        <div class="list-item-text">
+                            <div class="list-item-title">2023-03-20 学习质量报告</div>
+                            <div class="list-item-meta">
+                                <span>周报告</span>
+                                <span>已生成</span>
+                            </div>
+                        </div>
+                        <div style="color: var(--primary); font-size: 32px;">
+                            <span class="material-icons">assessment</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item" id="report-3" onclick="selectReport(this)">
+                    <div class="list-item-content">
+                        <div class="list-item-text">
+                            <div class="list-item-title">2023-03-13 学习质量报告</div>
+                            <div class="list-item-meta">
+                                <span>周报告</span>
+                                <span>已生成</span>
+                            </div>
+                        </div>
+                        <div style="color: var(--primary); font-size: 32px;">
+                            <span class="material-icons">assessment</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item" id="report-4" onclick="selectReport(this)">
+                    <div class="list-item-content">
+                        <div class="list-item-text">
+                            <div class="list-item-title">2023-02 月度学习质量报告</div>
+                            <div class="list-item-meta">
+                                <span>月报告</span>
+                                <span>已生成</span>
+                            </div>
+                        </div>
+                        <div style="color: var(--primary); font-size: 32px;">
+                            <span class="material-icons">assessment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectReport(element) {
+            // Remove selected class from all items
+            document.querySelectorAll('.list-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked item
+            element.classList.add('selected');
+        }
+
+        function highlightReport(reportId) {
+            // Highlight the first report when quality report menu is clicked
+            const firstReport = document.getElementById('report-' + reportId);
+            if (firstReport) {
+                selectReport(firstReport);
+            }
+        }
+    </script>
+</body>
+</html> 

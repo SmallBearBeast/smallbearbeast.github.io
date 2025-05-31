@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Secretary - Other Interface Prototypes (iframe版本)</title>
+    <style>
+        :root {
+            /* Student-Friendly Color Palette */
+            --primary: #2196F3;
+            --primary-variant: #1976D2;
+            --secondary: #03A9F4;
+            --secondary-variant: #0288D1;
+            --background: #FFFFFF;
+            --surface: #FFFFFF;
+            --error: #F44336;
+            --on-primary: #FFFFFF;
+            --on-secondary: #FFFFFF;
+            --on-background: #212121;
+            --on-surface: #212121;
+            --on-error: #FFFFFF;
+            --light-bg: #E3F2FD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+        }
+
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .page-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .page-description {
+            width: 100%;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .page-description h2 {
+            font-size: 24px;
+            color: var(--on-background);
+            margin-bottom: 10px;
+        }
+
+        /* Phone mockup styles */
+        .phone-mockup {
+            width: 360px;
+            height: 640px;
+            background-color: var(--background);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 16px;
+            display: block;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .page-section:nth-child(1) { animation-delay: 0.1s; }
+        .page-section:nth-child(2) { animation-delay: 0.3s; }
+        .page-section:nth-child(3) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <!-- Welcome Page -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <iframe 
+                    class="phone-frame" 
+                    src="iframe_pages/phone/other/欢迎页面_phone.html"
+                    title="AI学习秘书 - 欢迎页面">
+                </iframe>
+            </div>
+            <div class="page-description">
+                <h2>欢迎页面</h2>
+            </div>
+        </div>
+        
+        <!-- Role Selection Page -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <iframe 
+                    class="phone-frame" 
+                    src="iframe_pages/phone/other/角色选择页面_phone.html"
+                    title="AI学习秘书 - 角色选择页面">
+                </iframe>
+            </div>
+            <div class="page-description">
+                <h2>角色选择页面</h2>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div class="page-section">
+            <div class="phone-mockup">
+                <iframe 
+                    class="phone-frame" 
+                    src="iframe_pages/phone/other/登录界面_phone.html"
+                    title="AI学习秘书 - 登录界面">
+                </iframe>
+            </div>
+            <div class="page-description">
+                <h2>登录界面</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
